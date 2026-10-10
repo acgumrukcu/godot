@@ -44,6 +44,10 @@ Ayrıntılı tasarım: `docs/tasarim.md` — Yol haritası: `docs/yol-haritasi.m
 ## Komutlar
 
 ```bash
+# Temiz klonda (veya .godot/ silindiyse) önce içe aktar; yoksa GUT sınıfları bulunamaz
+# ve testler çalışmadan 0 koduyla çıkar
+godot --headless --import
+
 # Testleri çalıştır (GUT test çerçevesi, headless)
 godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests -gexit
 
