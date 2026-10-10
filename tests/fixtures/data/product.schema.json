@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "required": ["name", "price_kurus"],
+  "properties": {
+    "name": { "type": "string", "min_length": 1 },
+    "price_kurus": { "type": "int", "minimum": 0 }
+  }
+}
