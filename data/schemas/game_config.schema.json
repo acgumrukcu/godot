@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "description": "Genel oyun ayarları. Bkz. docs/kararlar/001-oyun-suresi.md",
+  "required": ["open_hour", "close_hour", "real_ms_per_tick", "speed_multipliers"],
+  "properties": {
+    "open_hour": {
+      "type": "int",
+      "description": "Kafenin açılış saati (0-23)",
+      "minimum": 0,
+      "maximum": 23
+    },
+    "close_hour": {
+      "type": "int",
+      "description": "Kafenin kapanış saati (1-24)",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "real_ms_per_tick": {
+      "type": "int",
+      "description": "1x hızda bir tick'in (1 oyun dakikası) gerçek milisaniye karşılığı; sadece UI kullanır",
+      "minimum": 1
+    },
+    "speed_multipliers": {
+      "type": "array",
+      "description": "Duraklatma dışındaki hız seçenekleri",
+      "min_items": 1,
+      "items": { "type": "int", "minimum": 1 }
+    }
+  }
+}

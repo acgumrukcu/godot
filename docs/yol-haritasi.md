@@ -6,7 +6,7 @@ Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsay
 - [x] Godot 4.x projesi, git deposu, `.gitignore`
 - [x] GUT test çerçevesinin kurulumu ve örnek bir geçen test
 - [ ] GitHub Actions: her push'ta headless testler
-- [ ] JSON veri yükleyici + doğrulama (hatalı veride anlaşılır hata mesajı)
+- [x] JSON veri yükleyici + doğrulama (hatalı veride anlaşılır hata mesajı)
 
 ## Aşama 1 — Simülasyon çekirdeği (görsel yok)
 - [ ] `SimClock`: tick tabanlı zaman, gün/saat
