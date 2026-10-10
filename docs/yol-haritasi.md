@@ -3,8 +3,8 @@
 Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsayımıyla başlar.
 
 ## Aşama 0 — Altyapı
-- [ ] Godot 4.x projesi, git deposu, `.gitignore`
-- [ ] GUT test çerçevesinin kurulumu ve örnek bir geçen test
+- [x] Godot 4.x projesi, git deposu, `.gitignore`
+- [x] GUT test çerçevesinin kurulumu ve örnek bir geçen test
 - [ ] GitHub Actions: her push'ta headless testler
 - [ ] JSON veri yükleyici + doğrulama (hatalı veride anlaşılır hata mesajı)
 
