@@ -26,13 +26,20 @@ Sabah: menüyü ve fiyatları ayarla, malzeme sipariş et
   → Ertesi gün
 ```
 
-Bir oyun günü gerçek zamanda yaklaşık 500 dakika sürer.
+Süre hedefleri (bkz. `docs/kararlar/001-oyun-suresi.md`):
+- Bir oyun günü 1x hızda yaklaşık 15 gerçek dakika: açık saatler ~12 dk + sabah/akşam
+  ekranları oyuncunun kendi temposunda.
+- MVP: ~30 oyun günü ≈ 7–8 saat (~500 dakika) içinde MVP içeriğinin tamamı açılır.
+- Çıkış sürümü: ana ilerleme 15–20 saat (~60–80 oyun günü); sonrasında açık uçlu devam.
 
 ## 4. Sistemler (MVP kapsamı)
 
 ### 4.1 Zaman
-- 1 tick = 1 oyun dakikası. Kafe 08:00–20:00 açık.
-- Hız seçenekleri: duraklat, 1x, 2x, 4x.
+- 1 tick = 1 oyun dakikası. Kafe 08:00–20:00 açık (720 tick).
+- 1x hızda 1 tick = 1 gerçek saniye → açık saatler ~12 dk. Bu oran veride tutulur,
+  Aşama 2 oyun testinden sonra ayarlanabilir.
+- Hız seçenekleri: duraklat, 1x, 2x, 4x (açık saatler 12 / 6 / 3 dk).
+- Sabah hazırlığı ve akşam özeti sırasında zaman akmaz.
 
 ### 4.2 Ekonomi
 - Para birimi tam sayı (kuruş).
