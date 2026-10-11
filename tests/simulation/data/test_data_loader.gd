@@ -33,10 +33,19 @@ func test_syntax_error_reports_file_and_line() -> void:
 	assert_true(result.error_text().contains(path + ":3: JSON sözdizimi hatası"), result.error_text())
 
 
+func test_broken_schema_is_reported_with_schema_path() -> void:
+	var schema_path: String = FIXTURE_DIR + "broken.schema.json"
+	var result: DataLoadResult = DataLoader.load_validated(FIXTURE_DIR + "valid.json", schema_path)
+	assert_false(result.is_ok())
+	assert_null(result.data)
+	assert_true(result.error_text().contains(schema_path + ": şema.properties.name: 'type'"), result.error_text())
+
+
 func test_schema_error_is_prefixed_with_file_path() -> void:
 	var path: String = FIXTURE_DIR + "wrong_type.json"
 	var result: DataLoadResult = DataLoader.load_validated(path, PRODUCT_SCHEMA)
 	assert_false(result.is_ok())
+	assert_null(result.data)
 	assert_true(
 		result.error_text().contains(path + ": $.price_kurus: beklenen tam sayı, bulunan \"kırk beş\""),
 		result.error_text()

@@ -18,23 +18,30 @@ static func load_data(data_name: String) -> DataLoadResult:
 	)
 
 
+# Hata varsa result.data null'dır.
 static func load_validated(data_path: String, schema_path: String) -> DataLoadResult:
 	var schema_result: DataLoadResult = load_json(schema_path)
 	if not schema_result.is_ok():
 		return schema_result
-	if typeof(schema_result.data) != TYPE_DICTIONARY:
-		schema_result.errors.append("%s: şema bir JSON nesnesi olmalı" % schema_path)
-		return schema_result
+	var schema_errors: Array[String] = SchemaValidator.validate_schema(schema_result.data)
+	if not schema_errors.is_empty():
+		return _failure(schema_path, schema_errors)
 
 	var data_result: DataLoadResult = load_json(data_path)
 	if not data_result.is_ok():
 		return data_result
 
-	var schema: Dictionary = schema_result.data
-	var validated: DataLoadResult = SchemaValidator.validate(data_result.data, schema)
-	for i: int in range(validated.errors.size()):
-		validated.errors[i] = "%s: %s" % [data_path, validated.errors[i]]
+	var validated: DataLoadResult = SchemaValidator.validate(data_result.data, schema_result.data)
+	if not validated.is_ok():
+		return _failure(data_path, validated.errors)
 	return validated
+
+
+static func _failure(path: String, errors: Array[String]) -> DataLoadResult:
+	var result: DataLoadResult = DataLoadResult.new()
+	for error: String in errors:
+		result.errors.append("%s: %s" % [path, error])
+	return result
 
 
 static func load_json(path: String) -> DataLoadResult:
