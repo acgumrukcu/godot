@@ -10,7 +10,7 @@ var clock: SimClock
 func before_each() -> void:
 	var data: Dictionary = {
 		"open_hour": OPEN_HOUR, "close_hour": CLOSE_HOUR,
-		"real_ms_per_tick": 1000, "speed_multipliers": [1],
+		"real_ms_per_tick": 1000, "speed_multipliers": [1], "starting_balance_kurus": 0,
 	}
 	var config: GameConfig = GameConfig.from_dict(data).data
 	clock = SimClock.new(config)

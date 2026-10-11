@@ -2,5 +2,6 @@
   "open_hour": 8,
   "close_hour": 20,
   "real_ms_per_tick": 1000,
-  "speed_multipliers": [1, 2, 4]
+  "speed_multipliers": [1, 2, 4],
+  "starting_balance_kurus": 50000
 }

@@ -2,7 +2,10 @@ extends GutTest
 
 
 func _valid_dict() -> Dictionary:
-	return {"open_hour": 8, "close_hour": 20, "real_ms_per_tick": 1000, "speed_multipliers": [1, 2, 4]}
+	return {
+		"open_hour": 8, "close_hour": 20, "real_ms_per_tick": 1000,
+		"speed_multipliers": [1, 2, 4], "starting_balance_kurus": 50000,
+	}
 
 
 func test_default_config_loads() -> void:
@@ -21,6 +24,7 @@ func test_from_dict_copies_fields() -> void:
 		return
 	var config: GameConfig = result.data
 	assert_eq(config.real_ms_per_tick, 1000)
+	assert_eq(config.starting_balance_kurus, 50000)
 
 
 func test_close_hour_must_be_after_open_hour() -> void:

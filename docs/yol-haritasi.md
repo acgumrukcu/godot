@@ -10,7 +10,7 @@ Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsay
 
 ## Aşama 1 — Simülasyon çekirdeği (görsel yok)
 - [x] `SimClock`: tick tabanlı zaman, gün/saat
-- [ ] `Economy`: para (kuruş), gelir/gider kaydı
+- [x] `Economy`: para (kuruş), gelir/gider kaydı
 - [ ] `Recipe` ve `Inventory`: malzeme stoku, ürün hazırlama
 - [ ] `CustomerSpawner`: tohumlu rastgele müşteri gelişi, sipariş kararı (fiyat esnekliği)
 - [ ] `DaySummary`: gün sonu raporu

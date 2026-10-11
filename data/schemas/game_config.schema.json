@@ -1,8 +1,13 @@
 {
   "type": "object",
   "description": "Genel oyun ayarları. Bkz. docs/kararlar/001-oyun-suresi.md",
-  "required": ["open_hour", "close_hour", "real_ms_per_tick", "speed_multipliers"],
+  "required": ["open_hour", "close_hour", "real_ms_per_tick", "speed_multipliers", "starting_balance_kurus"],
   "properties": {
+    "starting_balance_kurus": {
+      "type": "int",
+      "description": "Oyun başındaki kasa (kuruş). GEÇİCİ değer; denge simülasyonuyla ayarlanacak",
+      "minimum": 0
+    },
     "open_hour": {
       "type": "int",
       "description": "Kafenin açılış saati (0-23)",

@@ -10,6 +10,7 @@ var open_hour: int = 0
 var close_hour: int = 0
 var real_ms_per_tick: int = 0
 var speed_multipliers: Array[int] = []
+var starting_balance_kurus: int = 0
 
 
 # data/game_config.json'u yükler. Başarılıysa result.data bir GameConfig'tir.
@@ -28,6 +29,7 @@ static func from_dict(data: Dictionary) -> DataLoadResult:
 	config.close_hour = data["close_hour"]
 	config.real_ms_per_tick = data["real_ms_per_tick"]
 	config.speed_multipliers.assign(data["speed_multipliers"])
+	config.starting_balance_kurus = data["starting_balance_kurus"]
 
 	if config.close_hour <= config.open_hour:
 		result.errors.append("%s: close_hour (%d) open_hour'dan (%d) büyük olmalı" % [
