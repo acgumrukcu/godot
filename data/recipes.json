@@ -1,0 +1,32 @@
+{
+  "recipes": [
+    {
+      "id": "filter_coffee",
+      "name": "Filtre kahve",
+      "ingredients": [{ "ingredient": "coffee_grounds", "amount": 1 }],
+      "prep_minutes": 3,
+      "base_price_kurus": 4500,
+      "unlock_cost_kurus": 0
+    },
+    {
+      "id": "tea",
+      "name": "Çay",
+      "ingredients": [{ "ingredient": "tea_leaves", "amount": 1 }],
+      "prep_minutes": 2,
+      "base_price_kurus": 2000,
+      "unlock_cost_kurus": 0
+    },
+    {
+      "id": "cookie",
+      "name": "Kurabiye",
+      "ingredients": [
+        { "ingredient": "flour", "amount": 1 },
+        { "ingredient": "butter", "amount": 1 },
+        { "ingredient": "sugar", "amount": 1 }
+      ],
+      "prep_minutes": 1,
+      "base_price_kurus": 3000,
+      "unlock_cost_kurus": 0
+    }
+  ]
+}

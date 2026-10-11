@@ -1,0 +1,9 @@
+{
+  "ingredients": [
+    { "id": "coffee_grounds", "name": "Çekilmiş kahve", "unit_cost_kurus": 800 },
+    { "id": "tea_leaves", "name": "Çay yaprağı", "unit_cost_kurus": 200 },
+    { "id": "flour", "name": "Un", "unit_cost_kurus": 100 },
+    { "id": "butter", "name": "Tereyağı", "unit_cost_kurus": 300 },
+    { "id": "sugar", "name": "Şeker", "unit_cost_kurus": 50 }
+  ]
+}

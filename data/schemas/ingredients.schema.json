@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "description": "Malzemeler. Bir birim = bir porsiyonluk miktar. Maliyetler GEÇİCİ; denge simülasyonuyla ayarlanacak",
+  "required": ["ingredients"],
+  "properties": {
+    "ingredients": {
+      "type": "array",
+      "min_items": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "unit_cost_kurus"],
+        "properties": {
+          "id": { "type": "string", "min_length": 1, "description": "Benzersiz kimlik (snake_case)" },
+          "name": { "type": "string", "min_length": 1, "description": "Oyuncuya gösterilen ad" },
+          "unit_cost_kurus": { "type": "int", "minimum": 1, "description": "Bir birimin satın alma maliyeti (kuruş)" }
+        }
+      }
+    }
+  }
+}
