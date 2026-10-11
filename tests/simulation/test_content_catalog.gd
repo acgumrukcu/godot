@@ -38,8 +38,15 @@ func test_default_content_loads() -> void:
 		assert_true(catalog.recipe(recipe_id).is_unlocked_at_start(), recipe_id)
 
 
+func _catalog_or_fail(result: DataLoadResult) -> ContentCatalog:
+	assert_true(result.is_ok(), result.error_text())
+	return result.data
+
+
 func test_default_recipes_are_profitable_at_base_price() -> void:
-	var catalog: ContentCatalog = ContentCatalog.load_default().data
+	var catalog: ContentCatalog = _catalog_or_fail(ContentCatalog.load_default())
+	if catalog == null:
+		return
 	for recipe_id: String in catalog.recipe_ids():
 		var recipe: Recipe = catalog.recipe(recipe_id)
 		assert_gt(recipe.base_price_kurus, catalog.recipe_cost_kurus(recipe_id), recipe_id)
@@ -55,20 +62,27 @@ func test_recipe_fields_are_parsed() -> void:
 
 
 func test_recipe_cost_is_sum_of_ingredients() -> void:
-	var catalog: ContentCatalog = ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([_latte()])).data
+	var catalog: ContentCatalog = _catalog_or_fail(ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([_latte()])))
+	if catalog == null:
+		return
 	assert_eq(catalog.recipe_cost_kurus("latte"), 800 + 2 * 150)
 
 
-func test_lookup_of_unknown_id_returns_null() -> void:
-	var catalog: ContentCatalog = ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([_latte()])).data
+func test_lookup_of_unknown_id_is_safe() -> void:
+	var catalog: ContentCatalog = _catalog_or_fail(ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([_latte()])))
+	if catalog == null:
+		return
 	assert_null(catalog.recipe("nope"))
 	assert_null(catalog.ingredient("nope"))
+	assert_eq(catalog.recipe_cost_kurus("nope"), 0)
 
 
 func test_unlock_cost_controls_start_availability() -> void:
 	var locked: Dictionary = _latte()
 	locked["unlock_cost_kurus"] = 20000
-	var catalog: ContentCatalog = ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([locked])).data
+	var catalog: ContentCatalog = _catalog_or_fail(ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([locked])))
+	if catalog == null:
+		return
 	assert_false(catalog.recipe("latte").is_unlocked_at_start())
 
 

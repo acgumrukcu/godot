@@ -85,9 +85,11 @@ func recipe_ids() -> Array[String]:
 	return _recipe_order.duplicate()
 
 
-# Bir porsiyonun malzeme maliyeti (docs/tasarim.md §4.2).
+# Bir porsiyonun malzeme maliyeti (docs/tasarim.md §4.2). Bilinmeyen id için 0.
 func recipe_cost_kurus(recipe_id: String) -> int:
 	var target: Recipe = recipe(recipe_id)
+	if target == null:
+		return 0
 	var total: int = 0
 	for ingredient_id: String in target.ingredient_amounts:
 		total += _ingredients[ingredient_id].unit_cost_kurus * target.ingredient_amounts[ingredient_id]
