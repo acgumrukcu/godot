@@ -46,9 +46,12 @@ func can_afford(amount: int) -> bool:
 	return amount <= _balance
 
 
-# Defterin kopyası; dışarıdan değiştirilemez.
+# Defterin derin kopyası; dönen kayıtları değiştirmek defteri etkilemez.
 func transactions() -> Array[EconomyTransaction]:
-	return _transactions.duplicate()
+	var copies: Array[EconomyTransaction] = []
+	for transaction: EconomyTransaction in _transactions:
+		copies.append(EconomyTransaction.new(transaction.day, transaction.amount, transaction.category, transaction.note))
+	return copies
 
 
 func income_for_day(day: int) -> int:

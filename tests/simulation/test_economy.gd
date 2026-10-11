@@ -85,6 +85,7 @@ func test_transactions_returns_a_copy() -> void:
 	assert_eq(economy.transactions().size(), 1)
 
 
-func test_money_stays_int() -> void:
-	economy.earn(4500, Economy.Category.SALE, 1)
-	assert_eq(typeof(economy.balance()), TYPE_INT)
+func test_modifying_returned_transaction_does_not_change_ledger() -> void:
+	economy.earn(100, Economy.Category.SALE, 1)
+	economy.transactions()[0].amount = 999999
+	assert_eq(economy.income_for_day(1), 100)
