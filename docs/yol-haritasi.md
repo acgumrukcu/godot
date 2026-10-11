@@ -9,7 +9,7 @@ Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsay
 - [x] JSON veri yükleyici + doğrulama (hatalı veride anlaşılır hata mesajı)
 
 ## Aşama 1 — Simülasyon çekirdeği (görsel yok)
-- [ ] `SimClock`: tick tabanlı zaman, gün/saat
+- [x] `SimClock`: tick tabanlı zaman, gün/saat
 - [ ] `Economy`: para (kuruş), gelir/gider kaydı
 - [ ] `Recipe` ve `Inventory`: malzeme stoku, ürün hazırlama
 - [ ] `CustomerSpawner`: tohumlu rastgele müşteri gelişi, sipariş kararı (fiyat esnekliği)
