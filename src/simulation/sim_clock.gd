@@ -55,6 +55,7 @@ func start_next_day() -> bool:
 	return true
 
 
+@warning_ignore("integer_division")
 func hour() -> int:
 	return minute_of_day / MINUTES_PER_HOUR
 

@@ -16,6 +16,9 @@ func test_default_config_loads() -> void:
 
 func test_from_dict_copies_fields() -> void:
 	var result: DataLoadResult = GameConfig.from_dict(_valid_dict())
+	assert_true(result.is_ok(), result.error_text())
+	if not result.is_ok():
+		return
 	var config: GameConfig = result.data
 	assert_eq(config.real_ms_per_tick, 1000)
 
