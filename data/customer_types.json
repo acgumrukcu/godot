@@ -1,0 +1,47 @@
+{
+  "customer_types": [
+    {
+      "id": "fisherman",
+      "name": "Balıkçı",
+      "arrival_windows": [
+        { "start_hour": 8, "end_hour": 10, "customers_per_hour": 6 }
+      ],
+      "preferences": [
+        { "recipe": "filter_coffee", "weight": 5 },
+        { "recipe": "tea", "weight": 3 },
+        { "recipe": "cookie", "weight": 1 }
+      ],
+      "price_sensitivity_percent": 50,
+      "patience_minutes": 10
+    },
+    {
+      "id": "student",
+      "name": "Öğrenci",
+      "arrival_windows": [
+        { "start_hour": 12, "end_hour": 18, "customers_per_hour": 4 }
+      ],
+      "preferences": [
+        { "recipe": "filter_coffee", "weight": 2 },
+        { "recipe": "tea", "weight": 3 },
+        { "recipe": "cookie", "weight": 4 }
+      ],
+      "price_sensitivity_percent": 150,
+      "patience_minutes": 20
+    },
+    {
+      "id": "retiree",
+      "name": "Emekli",
+      "arrival_windows": [
+        { "start_hour": 9, "end_hour": 12, "customers_per_hour": 3 },
+        { "start_hour": 14, "end_hour": 17, "customers_per_hour": 3 }
+      ],
+      "preferences": [
+        { "recipe": "filter_coffee", "weight": 1 },
+        { "recipe": "tea", "weight": 5 },
+        { "recipe": "cookie", "weight": 3 }
+      ],
+      "price_sensitivity_percent": 100,
+      "patience_minutes": 30
+    }
+  ]
+}

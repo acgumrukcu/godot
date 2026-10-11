@@ -12,7 +12,7 @@ Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsay
 - [x] `SimClock`: tick tabanlı zaman, gün/saat
 - [x] `Economy`: para (kuruş), gelir/gider kaydı
 - [x] `Recipe` ve `Inventory`: malzeme stoku, ürün hazırlama
-- [ ] `CustomerSpawner`: tohumlu rastgele müşteri gelişi, sipariş kararı (fiyat esnekliği)
+- [x] `CustomerSpawner`: tohumlu rastgele müşteri gelişi, sipariş kararı (fiyat esnekliği)
 - [ ] `DaySummary`: gün sonu raporu
 - [ ] `SaveSystem`: sürümlü kayıt/yükleme + migrasyon iskeleti
 - [ ] `tools/balance_sim.gd`: 30 günlük headless simülasyon, özet çıktı

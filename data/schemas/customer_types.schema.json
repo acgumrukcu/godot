@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "description": "Müşteri tipleri (docs/tasarim.md §4.4). Tüm sayılar GEÇİCİ; denge simülasyonuyla ayarlanacak",
+  "required": ["customer_types"],
+  "properties": {
+    "customer_types": {
+      "type": "array",
+      "min_items": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "arrival_windows", "preferences", "price_sensitivity_percent", "patience_minutes"],
+        "properties": {
+          "id": { "type": "string", "min_length": 1, "description": "Benzersiz kimlik (snake_case)" },
+          "name": { "type": "string", "min_length": 1, "description": "Oyuncuya gösterilen ad" },
+          "arrival_windows": {
+            "type": "array",
+            "min_items": 1,
+            "description": "Bu tipin geldiği saat aralıkları; start_hour dahil, end_hour hariç",
+            "items": {
+              "type": "object",
+              "required": ["start_hour", "end_hour", "customers_per_hour"],
+              "properties": {
+                "start_hour": { "type": "int", "minimum": 0, "maximum": 23 },
+                "end_hour": { "type": "int", "minimum": 1, "maximum": 24 },
+                "customers_per_hour": { "type": "int", "minimum": 1, "maximum": 60, "description": "Saatte ortalama geliş sayısı" }
+              }
+            }
+          },
+          "preferences": {
+            "type": "array",
+            "min_items": 1,
+            "description": "Ürün seçim ağırlıkları; menüde olmayan ürünler atlanır",
+            "items": {
+              "type": "object",
+              "required": ["recipe", "weight"],
+              "properties": {
+                "recipe": { "type": "string", "min_length": 1, "description": "recipes.json içindeki id" },
+                "weight": { "type": "int", "minimum": 1 }
+              }
+            }
+          },
+          "price_sensitivity_percent": {
+            "type": "int",
+            "minimum": 0,
+            "description": "Temel fiyatın %1 üzerindeki her artış alma olasılığını bu oranın yüzdesi kadar düşürür (100: %10 pahalı → %10 daha az olası)"
+          },
+          "patience_minutes": { "type": "int", "minimum": 1, "description": "Siparişini bekleme sabrı (oyun dakikası)" }
+        }
+      }
+    }
+  }
+}

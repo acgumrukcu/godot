@@ -113,3 +113,68 @@ func test_duplicate_ingredient_line_in_recipe_is_error() -> void:
 	])
 	var result: DataLoadResult = ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([entry]))
 	assert_string_contains(result.error_text(), "'double' tarifinde 'coffee' birden fazla kez geçiyor")
+
+
+# --- Müşteri tipleri ---
+
+func _customer_entry(id: String) -> Dictionary:
+	return {
+		"id": id, "name": id,
+		"arrival_windows": [{"start_hour": 8, "end_hour": 10, "customers_per_hour": 4}],
+		"preferences": [{"recipe": "latte", "weight": 1}],
+		"price_sensitivity_percent": 100, "patience_minutes": 10,
+	}
+
+
+func _with_customers(entries: Array) -> DataLoadResult:
+	return ContentCatalog.from_dicts(_ingredients_data(), _recipes_data([_latte()]), {"customer_types": entries})
+
+
+func test_default_customer_types_load_in_file_order() -> void:
+	var catalog: ContentCatalog = _catalog_or_fail(ContentCatalog.load_default())
+	if catalog == null:
+		return
+	assert_eq(catalog.customer_type_ids(), ["fisherman", "student", "retiree"] as Array[String])
+
+
+func test_customer_type_fields_are_parsed() -> void:
+	var catalog: ContentCatalog = _catalog_or_fail(_with_customers([_customer_entry("regular")]))
+	if catalog == null:
+		return
+	var customer_type: CustomerType = catalog.customer_type("regular")
+	assert_eq(customer_type.preferences, {"latte": 1} as Dictionary[String, int])
+	assert_eq(customer_type.customers_per_hour_at(8), 4)
+	assert_eq(customer_type.customers_per_hour_at(9), 4)
+	assert_eq(customer_type.customers_per_hour_at(10), 0, "end_hour hariç")
+
+
+func test_overlapping_windows_add_up() -> void:
+	var entry: Dictionary = _customer_entry("regular")
+	(entry["arrival_windows"] as Array).append({"start_hour": 9, "end_hour": 11, "customers_per_hour": 2})
+	var catalog: ContentCatalog = _catalog_or_fail(_with_customers([entry]))
+	if catalog == null:
+		return
+	assert_eq(catalog.customer_type("regular").customers_per_hour_at(9), 6)
+
+
+func test_customer_preference_must_reference_known_recipe() -> void:
+	var entry: Dictionary = _customer_entry("regular")
+	entry["preferences"] = [{"recipe": "mocha", "weight": 1}]
+	assert_string_contains(_with_customers([entry]).error_text(), "'regular' bilinmeyen tarife başvuruyor: 'mocha'")
+
+
+func test_arrival_window_must_end_after_start() -> void:
+	var entry: Dictionary = _customer_entry("regular")
+	entry["arrival_windows"] = [{"start_hour": 10, "end_hour": 10, "customers_per_hour": 1}]
+	assert_string_contains(_with_customers([entry]).error_text(), "end_hour (10) start_hour'dan (10) büyük olmalı")
+
+
+func test_duplicate_customer_type_id_is_error() -> void:
+	var result: DataLoadResult = _with_customers([_customer_entry("regular"), _customer_entry("regular")])
+	assert_string_contains(result.error_text(), "customer_types: 'regular' id'si birden fazla kez tanımlı")
+
+
+func test_duplicate_preference_is_error() -> void:
+	var entry: Dictionary = _customer_entry("regular")
+	(entry["preferences"] as Array).append({"recipe": "latte", "weight": 2})
+	assert_string_contains(_with_customers([entry]).error_text(), "'regular' tercihlerinde 'latte' birden fazla kez geçiyor")
