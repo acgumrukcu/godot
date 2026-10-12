@@ -8,6 +8,7 @@ extends RefCounted
 const INGREDIENTS_DATA: String = "ingredients"
 const RECIPES_DATA: String = "recipes"
 const CUSTOMER_TYPES_DATA: String = "customer_types"
+const HOURS_PER_DAY: int = 24
 
 var _ingredients: Dictionary[String, Ingredient] = {}
 var _recipes: Dictionary[String, Recipe] = {}
@@ -78,6 +79,13 @@ static func _customer_type_from_dict(entry: Dictionary, catalog: ContentCatalog,
 				CUSTOMER_TYPES_DATA, customer_type.id, window.end_hour, window.start_hour
 			])
 		customer_type.arrival_windows.append(window)
+	# Bir tip dakikada en fazla bir müşteri üretir; çakışan aralıkların toplamı saatte 60'ı aşamaz.
+	for hour: int in range(HOURS_PER_DAY):
+		if customer_type.customers_per_hour_at(hour) > SimClock.MINUTES_PER_HOUR:
+			errors.append("%s: '%s' saat %d'de toplam customers_per_hour %d, en fazla %d olabilir" % [
+				CUSTOMER_TYPES_DATA, customer_type.id, hour,
+				customer_type.customers_per_hour_at(hour), SimClock.MINUTES_PER_HOUR
+			])
 	for preference: Dictionary in entry["preferences"]:
 		var recipe_id: String = preference["recipe"]
 		if not catalog._recipes.has(recipe_id):

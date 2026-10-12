@@ -27,12 +27,16 @@ func _type_entry(id: String, per_hour: int, sensitivity: int = 100) -> Dictionar
 	}
 
 
-func _open_clock() -> SimClock:
+func _morning_clock() -> SimClock:
 	var config: GameConfig = GameConfig.from_dict({
 		"open_hour": 8, "close_hour": 20, "real_ms_per_tick": 1000,
 		"speed_multipliers": [1], "starting_balance_kurus": 0,
 	}).data
-	var clock: SimClock = SimClock.new(config)
+	return SimClock.new(config)
+
+
+func _open_clock() -> SimClock:
+	var clock: SimClock = _morning_clock()
 	clock.open_cafe()
 	return clock
 
@@ -91,12 +95,7 @@ func test_free_base_price_with_positive_price_never_buys() -> void:
 func test_no_customers_when_closed() -> void:
 	catalog = _catalog_with([_type_entry("regular", 60)])
 	var spawner: CustomerSpawner = CustomerSpawner.new(catalog, _rng(SEED))
-	var config: GameConfig = GameConfig.from_dict({
-		"open_hour": 8, "close_hour": 20, "real_ms_per_tick": 1000,
-		"speed_multipliers": [1], "starting_balance_kurus": 0,
-	}).data
-	var morning_clock: SimClock = SimClock.new(config)
-	assert_eq(spawner.tick(morning_clock, Menu.with_starting_recipes(catalog)).size(), 0)
+	assert_eq(spawner.tick(_morning_clock(), Menu.with_starting_recipes(catalog)).size(), 0)
 
 
 func test_sixty_per_hour_arrives_every_minute() -> void:
@@ -127,7 +126,7 @@ func test_customers_only_arrive_in_their_window() -> void:
 	var visits: Array[CustomerVisit] = _run_day(spawner, Menu.with_starting_recipes(catalog))
 	assert_eq(visits.size(), 60)
 	for visit: CustomerVisit in visits:
-		assert_eq(visit.minute_of_day / 60, 9)
+		assert_eq(visit.minute_of_day / SimClock.MINUTES_PER_HOUR, 9)
 
 
 func test_visit_carries_context() -> void:
@@ -161,8 +160,25 @@ func test_overpriced_item_is_refused() -> void:
 	var spawner: CustomerSpawner = CustomerSpawner.new(catalog, _rng(SEED))
 	var menu: Menu = Menu.with_starting_recipes(catalog)
 	menu.set_price("coffee", 3000)  # %200 pahalı, hassasiyet 100 → olasılık 0
-	for visit: CustomerVisit in _run_day(spawner, menu):
+	var visits: Array[CustomerVisit] = _run_day(spawner, menu)
+	assert_eq(visits.size(), 720)
+	for visit: CustomerVisit in visits:
 		assert_eq(visit.decision, CustomerVisit.Decision.TOO_EXPENSIVE)
+
+
+func test_item_removed_from_menu_is_never_chosen() -> void:
+	var entry: Dictionary = _type_entry("regular", 60)
+	entry["preferences"] = [{"recipe": "coffee", "weight": 5}, {"recipe": "tea", "weight": 1}]
+	catalog = _catalog_with([entry])
+	var spawner: CustomerSpawner = CustomerSpawner.new(catalog, _rng(SEED))
+	var menu: Menu = Menu.with_starting_recipes(catalog)
+	menu.remove("coffee")
+	var visits: Array[CustomerVisit] = _run_day(spawner, menu)
+	assert_eq(visits.size(), 720)
+	for visit: CustomerVisit in visits:
+		assert_eq(visit.recipe_id, "tea")
+		assert_eq(visit.price_kurus, 500)
+		assert_eq(visit.decision, CustomerVisit.Decision.ORDERED)
 
 
 func test_higher_price_means_fewer_orders() -> void:

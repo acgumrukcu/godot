@@ -178,3 +178,12 @@ func test_duplicate_preference_is_error() -> void:
 	var entry: Dictionary = _customer_entry("regular")
 	(entry["preferences"] as Array).append({"recipe": "latte", "weight": 2})
 	assert_string_contains(_with_customers([entry]).error_text(), "'regular' tercihlerinde 'latte' birden fazla kez geçiyor")
+
+
+func test_overlapping_windows_cannot_exceed_one_customer_per_minute() -> void:
+	var entry: Dictionary = _customer_entry("crowd")
+	entry["arrival_windows"] = [
+		{"start_hour": 8, "end_hour": 10, "customers_per_hour": 40},
+		{"start_hour": 9, "end_hour": 11, "customers_per_hour": 40},
+	]
+	assert_string_contains(_with_customers([entry]).error_text(), "'crowd' saat 9'de toplam customers_per_hour 80, en fazla 60")
