@@ -86,7 +86,7 @@ func test_decision_counts_add_up_to_arrivals() -> void:
 	var summary: DaySummary = DaySummary.build(1, economy, visits)
 	assert_gt(summary.customers_arrived, 0)
 	assert_gt(summary.refused_too_expensive, 0, "Senaryo ret içermeli")
-	assert_eq(summary.orders_placed +summary.refused_too_expensive + summary.nothing_wanted, summary.customers_arrived)
+	assert_eq(summary.orders_placed + summary.refused_too_expensive + summary.nothing_wanted, summary.customers_arrived)
 	var by_type_total: int = 0
 	for type_id: String in summary.customers_by_type:
 		by_type_total += summary.customers_by_type[type_id]
