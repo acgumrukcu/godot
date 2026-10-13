@@ -13,7 +13,7 @@ Her aşama, bir öncekinin testleri geçtiği ve oynanarak onaylandığı varsay
 - [x] `Economy`: para (kuruş), gelir/gider kaydı
 - [x] `Recipe` ve `Inventory`: malzeme stoku, ürün hazırlama
 - [x] `CustomerSpawner`: tohumlu rastgele müşteri gelişi, sipariş kararı (fiyat esnekliği)
-- [ ] `DaySummary`: gün sonu raporu
+- [x] `DaySummary`: gün sonu raporu
 - [ ] `SaveSystem`: sürümlü kayıt/yükleme + migrasyon iskeleti
 - [ ] `tools/balance_sim.gd`: 30 günlük headless simülasyon, özet çıktı
 
